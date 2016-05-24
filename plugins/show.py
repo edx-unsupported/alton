@@ -64,7 +64,7 @@ class ShowPlugin(WillPlugin):
 
         ami = self._get_ami(ami_id, message=message)
         if ami:
-            self.say("/code {}".format(pformat(ami.tags)), message)
+            self.say("/code\n {}".format(pformat(ami.tags)), message)
 
     @respond_to("^diff "
                 "(?P<first_env>\w*)-"  # First Environment
@@ -211,7 +211,7 @@ class ShowPlugin(WillPlugin):
                 dest_secure_ref=dest_versions.configuration_secure,
             )
             example_command = (
-                "/code cut ami for {dest_env}-{dest_dep}-{dest_play} "
+                "/code\n cut ami for {dest_env}-{dest_dep}-{dest_play} "
                 "from {source_env}-{source_dep}-{source_play}")
             if version_overrides:
                 example_command += (
@@ -298,7 +298,7 @@ class ShowPlugin(WillPlugin):
         output = ["Active Plays",
                   "------------"]
         output.extend(list(plays))
-        self.say("/code {}".format("\n".join(output)), message)
+        self.say("/code\n {}".format("\n".join(output)), message)
 
     def _instance_elbs(self, instance_id, profile_name=None, elbs=None):
 
@@ -417,7 +417,7 @@ class ShowPlugin(WillPlugin):
                                                line[3].ljust(ami_len),))
 
         logging.error(output_table)
-        self.say("/code {}".format("\n".join(output)), message)
+        self.say("/code\n {}".format("\n".join(output)), message)
 
     def _get_ami_versions(self, ami_id, message=None):
         versions_dict = {}
@@ -555,7 +555,7 @@ class ShowPlugin(WillPlugin):
             else:
                 j = jenkins.Jenkins(settings.JENKINS_URL, settings.JENKINS_API_USER, settings.JENKINS_API_KEY)
                 jenkins_job_id = j.get_job_info('build-ami')['nextBuildNumber']
-                self.say("starting job 'build-ami' Job number {}, build token {}".format(jenkins_job_id, params['jobid']), message) 
+                self.say("starting job 'build-ami' Job number {}, build token {}".format(jenkins_job_id, params['jobid']), message)
                 try:
                     j.build_job('build-ami', parameters=params)
                 except urllib2.HTTPError as e:
