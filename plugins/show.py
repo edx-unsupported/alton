@@ -75,7 +75,7 @@ class ShowPlugin(WillPlugin):
 
         ami = self._get_ami(ami_id, message=message)
         if ami:
-            self.say("/code {}".format(pformat(ami.tags)), message)
+            self.say("/code {}".format(pformat(ami.tags)), message, html=False)
 
     @respond_to(r"^diff "
                 r"(?P<first_env>\w*)-"  # First Environment
@@ -246,7 +246,7 @@ class ShowPlugin(WillPlugin):
             )
 
             self.say(msg, message=message, color='yellow')
-            self.say(example_command, message=message, color='yellow')
+            self.say(example_command, message=message, color='yellow', html=False)
 
         self._notify_abbey(message, dest_env, dest_dep, dest_play,
                            final_versions, noop, dest_running_ami, verbose)
@@ -320,7 +320,7 @@ class ShowPlugin(WillPlugin):
         output = ["Active Plays",
                   "------------"]
         output.extend(list(plays))
-        self.say("/code {}".format("\n".join(output)), message)
+        self.say("/code {}".format("\n".join(output)), message, html=False)
 
     def _instance_elbs(self, instance_id, profile_name=None, elbs=None):
         """
@@ -454,7 +454,7 @@ class ShowPlugin(WillPlugin):
                                                line[3].ljust(ami_len),))
 
         logging.error(output_table)
-        self.say("/code {}".format("\n".join(output)), message)
+        self.say("/code {}".format("\n".join(output)), message, html=False)
 
     def _get_ami_versions(self, ami_id, message=None):
         """
